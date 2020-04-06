@@ -1,10 +1,11 @@
 import React from 'react';
+import { MeetingData } from './MeetingDataProvider';
 
 const MeetingNotLoadedConsole = (props: any) => {
   return (
     <div>
       <input name="meeting-id"></input>
-      <label for="meeting-id">Enter a meeting id</label>
+      <label htmlFor="meeting-id">Enter a meeting id</label>
     </div>
   ) 
 }
@@ -32,13 +33,18 @@ const MeetingErrorConsole = (props: any) => {
 
 const componentChooser = {
   'NOT_LOADED': MeetingNotLoadedConsole,
-  'LOADED': MeetingLoadedConsole,
+	'LOADED': MeetingLoadedConsole,
   'LOADING': MeetingLoadingConsole,
-  'ERROR': MeetingErrorConsole,
+	'ERROR': MeetingErrorConsole,
 }
-const MeetingConsole = (props: any) => {
+
+interface MeetingConsoleProps {
+  data: MeetingData
+}
+
+const MeetingConsole = (props: MeetingConsoleProps) => {
     console.log(props)
-  return componentChooser[props.data.state].apply(this, [props])
+  return componentChooser[props.data.state].apply(null, [props])
 };
 
 export default MeetingConsole;
