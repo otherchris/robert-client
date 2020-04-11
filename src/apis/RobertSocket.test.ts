@@ -1,4 +1,4 @@
-import RobertSocket from "./RobertSocket";
+import RobertSocket, { MessageHandler } from "./RobertSocket";
 import RobertSocketDriverMock from "./RobertSocketDriverMock";
 
 describe("RobertSocket", () => {
@@ -32,6 +32,40 @@ describe("RobertSocket", () => {
       rs.setConnectionState("open");
       rs.joinChannel();
       expect(rs.channelState).toEqual("joined");
+    });
+    test("do not join channel if not connected", () => {
+      rs.setConnectionState("closed");
+      rs.joinChannel();
+      expect(rs.channelState).toEqual("not joined");
+
+      rs.setConnectionState("closing");
+      rs.joinChannel();
+      expect(rs.channelState).toEqual("not joined");
+
+      rs.setConnectionState("connecting");
+      rs.joinChannel();
+      expect(rs.channelState).toEqual("not joined");
+    });
+  });
+  describe("push", function be() {
+    let mockFun: jest.Mock;
+    let handler: MessageHandler<string, string, string>;
+    beforeEach(() => {
+      mockFun = jest.fn();
+      handler = {
+        okHandler: mockFun,
+        errorHandler: mockFun,
+        timeoutHandler: mockFun
+      };
+    });
+    test("do not push if channel not joined", () => {
+      rs.push("msg", {}, 1, handler);
+      expect(mockFun.mock.calls).toHaveLength(0);
+    });
+    test("on ok call ok handler", () => {
+      rs.setChannelState("joined");
+      rs.push("msg", {}, 1, handler);
+      expect(mockFun.mock.calls).toHaveLength(1);
     });
   });
 });

@@ -4,10 +4,26 @@ export interface Setter<T> {
   (value: T): void;
 }
 
+export interface Handler<T> {
+  (response: T): void;
+}
+
+export interface MessageHandler<okT, errorT, timeoutT> {
+  okHandler: Handler<okT>;
+  errorHandler: Handler<errorT>;
+  timeoutHandler: Handler<timeoutT>;
+}
+
 export interface RobertSocketDriver {
   baseUrl: string;
   connect(setter: Setter<ConnectionState>): void;
   joinChannel(topic: string, setter: Setter<ChannelState>): void;
+  push(
+    eventName: string,
+    payload: object,
+    timeout: number,
+    handler: MessageHandler<string, string, string>
+  ): void;
 }
 
 export interface RobertSocketConfig {
@@ -44,7 +60,20 @@ class RobertSocket {
   }
 
   joinChannel(): void {
-    this.driver.joinChannel(this.topic, this.setChannelState.bind(this));
+    if (this.connectionState === "open") {
+      this.driver.joinChannel(this.topic, this.setChannelState.bind(this));
+    }
+  }
+
+  push(
+    eventName: string,
+    payload: object,
+    timeout: number,
+    handler: MessageHandler<string, string, string>
+  ): void {
+    if (this.channelState === "joined") {
+      this.driver.push(eventName, payload, timeout, handler);
+    }
   }
 }
 
