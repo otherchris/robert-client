@@ -1,4 +1,5 @@
-import RobertSocket, { MessageHandler } from "./RobertSocket";
+import RobertSocket from "./RobertSocket";
+import { PushHandler } from "./types";
 import RobertSocketDriverMock from "./RobertSocketDriverMock";
 
 describe("RobertSocket", () => {
@@ -6,7 +7,10 @@ describe("RobertSocket", () => {
   let rs: RobertSocket;
 
   beforeEach(function be() {
-    rsd = new RobertSocketDriverMock({ baseUrl: "fakeUrl" });
+    rsd = new RobertSocketDriverMock({
+      baseUrl: "fakeUrl",
+      messageHandlers: []
+    });
     rs = new RobertSocket({ driver: rsd });
   });
   describe("setters", () => {
@@ -26,6 +30,16 @@ describe("RobertSocket", () => {
   test("connect", () => {
     rs.connect();
     expect(rs?.connectionState).toEqual("open");
+  });
+  test("registerHandler", () => {
+    const handler = {
+      message: "fake",
+      handler: (s: string) => {
+        this.handlerResponse = s;
+      }
+    };
+    rs.registerHandler(handler);
+    expect(rsd.messageHandlers).toEqual([handler]);
   });
   describe("joinChannel", () => {
     test("joinChannel if connected", () => {
@@ -49,7 +63,7 @@ describe("RobertSocket", () => {
   });
   describe("push", function be() {
     let mockFun: jest.Mock;
-    let handler: MessageHandler<string, string, string>;
+    let handler: PushHandler;
     beforeEach(() => {
       mockFun = jest.fn();
       handler = {

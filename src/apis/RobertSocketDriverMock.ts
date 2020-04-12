@@ -3,18 +3,22 @@ import {
   RobertSocketDriver,
   Setter,
   ChannelState,
-  MessageHandler
+  MessageHandler,
+  PushHandler
 } from "./RobertSocket";
 
 interface RobertSocketDriverMockConfig {
   baseUrl: string;
+  messageHandlers: MessageHandler[];
 }
 
 class RobertSocketDriverMock implements RobertSocketDriver {
   baseUrl: string;
+  messageHandlers: MessageHandler[];
 
   constructor(config: RobertSocketDriverMockConfig) {
     this.baseUrl = config.baseUrl;
+    this.messageHandlers = config.messageHandlers;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -32,7 +36,7 @@ class RobertSocketDriverMock implements RobertSocketDriver {
     eventName: string,
     payload: object,
     timeout: number,
-    handler: MessageHandler<string, string, string>
+    handler: PushHandler
   ): void {
     handler.okHandler("ok message");
   }

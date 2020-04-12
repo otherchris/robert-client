@@ -1,30 +1,6 @@
 import { ConnectionState } from "phoenix";
-
-export interface Setter<T> {
-  (value: T): void;
-}
-
-export interface Handler<T> {
-  (response: T): void;
-}
-
-export interface MessageHandler<okT, errorT, timeoutT> {
-  okHandler: Handler<okT>;
-  errorHandler: Handler<errorT>;
-  timeoutHandler: Handler<timeoutT>;
-}
-
-export interface RobertSocketDriver {
-  baseUrl: string;
-  connect(setter: Setter<ConnectionState>): void;
-  joinChannel(topic: string, setter: Setter<ChannelState>): void;
-  push(
-    eventName: string,
-    payload: object,
-    timeout: number,
-    handler: MessageHandler<string, string, string>
-  ): void;
-}
+import { MessageHandler, PushHandler, RobertSocketDriver } from "./types";
+import { addHandlerToList } from "./helpers";
 
 export interface RobertSocketConfig {
   driver: RobertSocketDriver;
@@ -59,6 +35,10 @@ class RobertSocket {
     this.driver.connect(this.setConnectionState.bind(this));
   }
 
+  registerHandler(handler: MessageHandler): void {
+    this.driver.messageHandlers = addHandlerToList(this.driver.messageHandlers, handler);
+  }
+
   joinChannel(): void {
     if (this.connectionState === "open") {
       this.driver.joinChannel(this.topic, this.setChannelState.bind(this));
@@ -69,7 +49,7 @@ class RobertSocket {
     eventName: string,
     payload: object,
     timeout: number,
-    handler: MessageHandler<string, string, string>
+    handler: PushHandler
   ): void {
     if (this.channelState === "joined") {
       this.driver.push(eventName, payload, timeout, handler);
