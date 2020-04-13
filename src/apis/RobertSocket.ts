@@ -1,13 +1,17 @@
 import { ConnectionState } from "phoenix";
-import { MessageHandler, PushHandler, RobertSocketDriver } from "./types";
+import {
+  ChannelState,
+  MessageHandler,
+  PushHandler,
+  RobertSocketDriver
+} from "./types";
+
 import { addHandlerToList } from "./helpers";
 
 export interface RobertSocketConfig {
   driver: RobertSocketDriver;
   topic?: string;
 }
-
-export type ChannelState = "joined" | "not joined";
 
 class RobertSocket {
   driver: RobertSocketDriver;
@@ -36,7 +40,10 @@ class RobertSocket {
   }
 
   registerHandler(handler: MessageHandler): void {
-    this.driver.messageHandlers = addHandlerToList(this.driver.messageHandlers, handler);
+    this.driver.messageHandlers = addHandlerToList(
+      this.driver.messageHandlers,
+      handler
+    );
   }
 
   joinChannel(): void {

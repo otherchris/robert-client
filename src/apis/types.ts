@@ -1,5 +1,7 @@
 import { ConnectionState } from "phoenix";
 
+export type ChannelState = "joined" | "not joined";
+
 export interface Setter<T> {
   (value: T): void;
 }

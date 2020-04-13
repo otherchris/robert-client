@@ -1,12 +1,13 @@
 import find from "lodash/find";
+import noop from "lodash/noop";
 import { ConnectionState } from "phoenix";
 import {
-  RobertSocketDriver,
   Setter,
   ChannelState,
   MessageHandler,
-  PushHandler
-} from "./RobertSocket";
+  PushHandler,
+  RobertSocketDriver
+} from "./types";
 
 interface RobertSocketDriverMockConfig {
   baseUrl: string;
@@ -23,8 +24,10 @@ class RobertSocketDriverMock implements RobertSocketDriver {
   }
 
   fakeMessage(): void {
-    const { handler } = find(this.messageHandlers, { message: "fake" })
-    handler.apply(this, ["fake message received"]);
+    const messageHandler = find(this.messageHandlers, { message: "fake" }) || {
+      handler: noop
+    };
+    messageHandler.handler.apply(this, ["fake message received"]);
   }
 
   // eslint-disable-next-line class-methods-use-this
