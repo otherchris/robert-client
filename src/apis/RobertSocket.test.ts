@@ -15,15 +15,15 @@ describe("RobertSocket", () => {
   });
   describe("setters", () => {
     test("setConnectionState", () => {
-      rs.setConnectionState("connecting");
+      rs.connectionState = "connecting";
       expect(rs.connectionState).toEqual("connecting");
     });
     test("setTopic", () => {
-      rs.setTopic("meeting:MEETIN");
+      rs.topic = "meeting:MEETIN";
       expect(rs.topic).toEqual("meeting:MEETIN");
     });
     test("setChannelState", () => {
-      rs.setChannelState("joined");
+      rs.channelState = "joined";
       expect(rs.channelState).toEqual("joined");
     });
   });
@@ -46,20 +46,20 @@ describe("RobertSocket", () => {
   });
   describe("joinChannel", () => {
     test("joinChannel if connected", () => {
-      rs.setConnectionState("open");
+      rs.connectionState = "open";
       rs.joinChannel();
       expect(rs.channelState).toEqual("joined");
     });
     test("do not join channel if not connected", () => {
-      rs.setConnectionState("closed");
+      rs.connectionState = "closed";
       rs.joinChannel();
       expect(rs.channelState).toEqual("not joined");
 
-      rs.setConnectionState("closing");
+      rs.connectionState = "closing";
       rs.joinChannel();
       expect(rs.channelState).toEqual("not joined");
 
-      rs.setConnectionState("connecting");
+      rs.connectionState = "connecting";
       rs.joinChannel();
       expect(rs.channelState).toEqual("not joined");
     });
@@ -80,7 +80,7 @@ describe("RobertSocket", () => {
       expect(mockFun.mock.calls).toHaveLength(0);
     });
     test("on ok call ok handler", () => {
-      rs.setChannelState("joined");
+      rs.channelState = "joined";
       rs.push("msg", {}, 1, handler);
       expect(mockFun.mock.calls).toHaveLength(1);
     });

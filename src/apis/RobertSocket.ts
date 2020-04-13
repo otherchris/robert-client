@@ -23,15 +23,15 @@ class RobertSocket {
     this.driver = config.driver;
   }
 
-  setConnectionState(newState: ConnectionState): void {
+  private setConnectionState(newState: ConnectionState): void {
     this.connectionState = newState;
   }
 
-  setTopic(newTopic: string): void {
+  private setTopic(newTopic: string): void {
     this.topic = newTopic;
   }
 
-  setChannelState(newChannelState: ChannelState): void {
+  private setChannelState(newChannelState: ChannelState): void {
     this.channelState = newChannelState;
   }
 
