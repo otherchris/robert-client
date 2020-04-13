@@ -32,14 +32,17 @@ describe("RobertSocket", () => {
     expect(rs?.connectionState).toEqual("open");
   });
   test("registerHandler", () => {
+    let response = "";
     const handler = {
       message: "fake",
-      handler: (s: string) => {
-        this.handlerResponse = s;
+      handler: (s: string): void => {
+        response = s;
       }
     };
     rs.registerHandler(handler);
     expect(rsd.messageHandlers).toEqual([handler]);
+    rsd.fakeMessage();
+    expect(response).toEqual("fake message received");
   });
   describe("joinChannel", () => {
     test("joinChannel if connected", () => {
