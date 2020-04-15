@@ -1,5 +1,6 @@
 export interface RobertApiDriver {
   createMeeting(): Promise<string>;
+  joinMeeting(s: string): Promise<string>;
 }
 
 interface RobertApiConfig {
@@ -15,5 +16,9 @@ export default class RobertApi {
 
   async createMeeting(): Promise<string> {
     return this.driver.createMeeting();
+  }
+
+  async joinMeeting(meeting_id: string): Promise<string> {
+    return this.driver.joinMeeting(meeting_id);
   }
 }

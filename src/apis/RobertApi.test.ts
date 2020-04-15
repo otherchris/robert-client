@@ -14,4 +14,14 @@ describe(RobertApi, function() {
       expect(webApi.createMeeting()).resolves.toEqual(expect.stringContaining(""));
     });
   });
+
+  describe("joinMeeting", () => {
+    test("resolves to OK on success", async () => {
+      await expect(webApi.joinMeeting("SUCCES")).resolves.toEqual("OK");
+    });
+
+    test("rejects with ERROR otherwise", async () => {
+      await expect(webApi.joinMeeting("ERROR_")).rejects.toEqual("ERROR");
+    });
+  });
 });
