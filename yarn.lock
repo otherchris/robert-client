@@ -9313,7 +9313,7 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-phoenix@^1.4.16:
+phoenix@^1.4.0, phoenix@^1.4.16:
   version "1.4.16"
   resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.4.16.tgz#83b887ddb69b676024fd1c6ea6849a46ae0d837f"
   integrity sha512-XmKVTlFQuRwTYBO1WU1OaN2tzywRAtY6haUpxHPGxNZuyPEgmo+Caw7+BMlIPhipM197+d962i6sGZLylBtCbA==
@@ -10711,7 +10711,7 @@ react-textarea-autosize@^7.1.0:
     "@babel/runtime" "^7.1.2"
     prop-types "^15.6.0"
 
-react@^16.13.1, react@^16.8.3:
+react@^16.13.1, react@^16.7.0-alpha.0, react@^16.8.3:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
   integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
@@ -12520,6 +12520,15 @@ use-callback-ref@^1.2.1:
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.1.tgz#898759ccb9e14be6c7a860abafa3ffbd826c89bb"
   integrity sha512-C3nvxh0ZpaOxs9RCnWwAJ+7bJPwQI8LHF71LzbQ3BvzH5XkdtlkMadqElGevg5bYBDFip4sAnD4m06zAKebg1w==
 
+use-phoenix-channel@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/use-phoenix-channel/-/use-phoenix-channel-1.1.1.tgz#30add6df743a186281a7e245a6ef62a24e71857c"
+  integrity sha512-WH8eW3TtGgpIYFujpbd9LXCJksDmPqAzchBsXjL7l6JkdxD9D1U1zFE5ftkVHh/ukFXhhOQgGTUrLiwyYwg18A==
+  dependencies:
+    phoenix "^1.4.0"
+    react "^16.7.0-alpha.0"
+    webpack "^4.25.1"
+
 use-sidecar@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/use-sidecar/-/use-sidecar-1.0.2.tgz#e72f582a75842f7de4ef8becd6235a4720ad8af6"
@@ -12800,7 +12809,7 @@ webpack@4.42.0:
     watchpack "^1.6.0"
     webpack-sources "^1.4.1"
 
-webpack@^4.33.0, webpack@^4.38.0:
+webpack@^4.25.1, webpack@^4.33.0, webpack@^4.38.0:
   version "4.42.1"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.42.1.tgz#ae707baf091f5ca3ef9c38b884287cfe8f1983ef"
   integrity sha512-SGfYMigqEfdGchGhFFJ9KyRpQKnipvEvjc1TwrXEPCM6H5Wywu10ka8o3KGrMzSMxMQKt8aCHUFh5DaQ9UmyRg==

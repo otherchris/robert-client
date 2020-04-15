@@ -1,26 +1,22 @@
 import React, { FunctionComponentElement } from "react";
+import { useChannel } from "use-phoenix-channel";
 import logo from "./logo.svg";
 import "./App.css";
 
+interface Message {
+  event: any;
+  payload: any;
+}
+
+const countReducer = (state: any, msg: Message) => {
+  console.log(msg.event, msg.payload);
+};
+
 function App(): FunctionComponentElement<object> {
+  // const [state, broadcast] = useChannel("meeting:NK74KR", reducer);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit
-          <code> src/App.tsx </code>
-          and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      hello 
     </div>
   );
 }
