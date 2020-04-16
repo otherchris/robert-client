@@ -1,15 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { SocketProvider } from "use-phoenix-channel";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import ApiProvider from "./contexts/ApiProvider";
+import SocketProvider from "./contexts/SocketProvider";
 
 ReactDOM.render(
   <React.StrictMode>
-    <SocketProvider wsUrl="ws://localhost:4000/socket">
-      <App />
-    </SocketProvider>
+    <ApiProvider>
+      <SocketProvider>
+        <App />
+      </SocketProvider>
+    </ApiProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

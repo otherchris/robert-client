@@ -10,4 +10,9 @@ export default class RobertApiDriverReal implements RobertApiDriver {
       r("MEETIN");
     });
   }
+  joinMeeting(s: string): Promise<string> {
+    return new Promise(r => {
+      r("MEETIN");
+    });
+  }
 }
