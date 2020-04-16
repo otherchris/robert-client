@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Socket } from 'phoenix'
 
 import { SocketContext } from './SocketContext'
 
-const wsUrl = () => {
+const wsUrlFun = () => {
   switch (process.env.NODE_ENV) {
     case "test": 
       return "NONE";
@@ -13,14 +13,22 @@ const wsUrl = () => {
       return "ws://localhost:4000/socket";
   }
 }
-const SocketProvider: React.FC = ({ children }) => {
-  const socket = new Socket(wsUrl(), { params: {}})
 
-  useEffect(() => { socket.connect() }, [wsUrl])
+const wsUrl = wsUrlFun();
+
+const SocketProvider: React.FC = ({ children }) => {
+  const socket = new Socket(wsUrl, { params: {} });
+  useEffect(() => {
+    socket.connect();
+  }, [wsUrl]);
 
   return (
     <SocketContext.Provider value={socket}>
       { children }
+
+      <button type="button" onClick={() => { console.log(socket.connectionState()) }}>
+        SP 
+      </button>
     </SocketContext.Provider>
    )
  }
