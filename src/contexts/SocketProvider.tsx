@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Socket, ConnectionState } from 'phoenix'
 
+import SocketMock from "../mocks/SocketMock";
 import { SocketContext, SocketContextType } from './SocketContext'
+import RobertSocketDriverMock from '../apis/RobertSocketDriverMock';
 
-const wsUrlFun = () => {
-  switch (process.env.NODE_ENV) {
-    case "test": 
-      return "NONE";
-    case "development": 
-      return "ws://localhost:4000/socket";
-    case "production":
-      return "ws://localhost:4000/socket";
-  }
-}
-
-const wsUrl = wsUrlFun();
+const socket = process.env.NODE_ENV === "test" ? 
+  new SocketMock();
+  new Socket("ws://localhost:4000/socket", { params: {} });
 
 const SocketProvider: React.FC = ({ children }) => {
-  const socket = new Socket(wsUrl, { params: {} });
   const [connState, setConnState] = useState<ConnectionState>("closed")
   useEffect(() => {
     socket.onOpen(() => { setConnState("open") })
