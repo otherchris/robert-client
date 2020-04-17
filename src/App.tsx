@@ -1,14 +1,23 @@
-import React, { FunctionComponentElement, useContext } from "react";
+import React, {
+  FunctionComponentElement,
+  useContext,
+  useEffect,
+  useState
+} from "react";
 import "./App.css";
 import { SocketContext, SocketContextType } from "./contexts/SocketContext";
 import BuildData from "./components/BuildData";
+import JoinMeeting from "./components/JoinMeeting";
 
 function App(): FunctionComponentElement<object> {
-  const { connState }: SocketContextType = useContext(SocketContext);
+  const { connState, socket }: SocketContextType = useContext(SocketContext);
+
+  const [meetingId, setMeetingId] = useState();
 
   return (
     <div className="App">
-      <BuildData connState={connState} />
+      <BuildData connState={connState} meetingId={meetingId} />
+      {meetingId ? null : <JoinMeeting setMeetingId={setMeetingId} />}
     </div>
   );
 }
