@@ -2,24 +2,18 @@ import React, { FunctionComponentElement, useContext, useState, useEffect } from
 import logo from "./logo.svg";
 import "./App.css";
 import { ApiContext } from "./contexts/ApiContext";
-import { SocketContext } from "./contexts/SocketContext";
+import { SocketContext, SocketContextType } from "./contexts/SocketContext";
 import BuildData from "./components/BuildData";
 
 function App(): FunctionComponentElement<object> {
   const apis = useContext(ApiContext);
-  const socket = useContext(SocketContext);
-
-  const [socketState, setSocketState] = useState();
-
-  useEffect(() => {
-    setSocketState(socket.isConnected());
-  })
+  const { socket, connState }: SocketContextType = useContext(SocketContext);
 
   return (
     <div className="App">
-      <BuildData socket={socket} />
-      <button type="button" onClick={() => { console.log(socket.connectionState()) }}>
-        App 
+      <BuildData connState={ connState } />
+      <button type="button" onClick={() => { console.log(connState) }}>
+        App { connState }
       </button>
     </div>
   );

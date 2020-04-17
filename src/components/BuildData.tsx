@@ -14,21 +14,15 @@ const bgColor = (state: ConnectionState): string => {
   }
 };
 
-const BuildData: React.FC<{socket: Socket}> = (props) => {
-
-  const [clopen, setClopen] = useState();
-  useEffect(() => setClopen(props.socket.connectionState()));
+const BuildData: React.FC<{connState: ConnectionState}> = (props) => {
 
   return (
-    <div style={{backgroundColor: bgColor(clopen)}}>
+    <div style={{backgroundColor: bgColor(props.connState)}}>
       <b>Build</b>
       <ul>
         <li>env: {process.env.NODE_ENV}</li>
-        <li>socket state: {clopen}</li>
+        <li>socket state: {props.connState}</li>
       </ul>
-      <button type="button" onClick={() => { console.log(clopen) }}>
-        BuildData
-      </button>
     </div>
   );
 }

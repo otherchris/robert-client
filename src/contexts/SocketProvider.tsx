@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Socket } from 'phoenix'
+import { Socket, ConnectionState } from 'phoenix'
 
-import { SocketContext } from './SocketContext'
+import { SocketContext, SocketContextType } from './SocketContext'
 
 const wsUrlFun = () => {
   switch (process.env.NODE_ENV) {
@@ -18,17 +18,17 @@ const wsUrl = wsUrlFun();
 
 const SocketProvider: React.FC = ({ children }) => {
   const socket = new Socket(wsUrl, { params: {} });
+  const [connState, setConnState] = useState<ConnectionState>("closed")
   useEffect(() => {
+    socket.onOpen(() => { setConnState("open") })
+    socket.onClose(() => { setConnState("closed") })
     socket.connect();
   }, [wsUrl]);
 
   return (
-    <SocketContext.Provider value={socket}>
+    <SocketContext.Provider value={{ socket, connState }}>
+      { connState }
       { children }
-
-      <button type="button" onClick={() => { console.log(socket.connectionState()) }}>
-        SP 
-      </button>
     </SocketContext.Provider>
    )
  }
