@@ -1,5 +1,6 @@
 import React from "react";
 import { ConnectionState } from "phoenix";
+import { LodashIsUndefined } from "lodash/fp";
 
 const bgColor = (state: ConnectionState): string => {
   switch (state) {
@@ -19,9 +20,10 @@ const bgColor = (state: ConnectionState): string => {
 interface BuildDataProps {
   connState: ConnectionState;
   meetingId: string | undefined;
+  channelState: string | undefined;
 }
 
-const BuildData: React.FC<BuildDataProps> = ({ connState, meetingId }) => {
+const BuildData: React.FC<BuildDataProps> = ({ connState, meetingId, channelState }) => {
   return (
     <div style={{ backgroundColor: bgColor(connState) }}>
       <b>Build</b>
@@ -37,6 +39,10 @@ const BuildData: React.FC<BuildDataProps> = ({ connState, meetingId }) => {
         <li>
           meetingId:
           {meetingId}
+        </li>
+        <li>
+          channelState:
+          {channelState}
         </li>
       </ul>
     </div>

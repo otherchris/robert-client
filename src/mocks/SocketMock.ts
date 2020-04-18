@@ -1,5 +1,5 @@
 import noop from "lodash/noop";
-import { ConnectionState } from "phoenix";
+import { ConnectionState, Channel } from "phoenix";
 
 export const CONNECTION_LATENCY = 10;
 
@@ -37,6 +37,10 @@ class SocketMock {
   connectionState(): ConnectionState {
     return this.connState;
   }
-}
 
+  channel(s: string, o: object): Channel {
+    return new Channel(s, o);
+  }
+
+}
 export default SocketMock;
