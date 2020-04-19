@@ -15,13 +15,14 @@ const waitForConnect = (socket: SocketMock): Promise<void> => {
 };
 
 describe("SocketMock contract", () => {
-  let mokSoket = new SocketMock();
+  let mokSoket = new SocketMock({});
 
   beforeEach(() => {
-    mokSoket = new SocketMock();
+    mokSoket = new SocketMock({ noLatency: true });
   });
 
   test("connect mocks latency", () => {
+    mokSoket = new SocketMock({});
     mokSoket.connect();
     expect(mokSoket.connState).toBe("connecting");
     return waitForConnect(mokSoket).then(() => {
@@ -30,21 +31,21 @@ describe("SocketMock contract", () => {
   });
 
   test("can bypass connection latency", () => {
-    mokSoket.connect("NO_LATENCY");
+    mokSoket.connect();
     expect(mokSoket.connState).toBe("open");
   });
 
   test("onOpen", () => {
     const mockFun = jest.fn();
     mokSoket.onOpen(mockFun);
-    mokSoket.connect("NO_LATENCY");
+    mokSoket.connect();
     expect(mockFun.mock.calls.length).toBe(1);
   });
 
   test("onClose", () => {
     const mockFun = jest.fn();
     mokSoket.onClose(mockFun);
-    mokSoket.connect("NO_LATENCY");
+    mokSoket.connect();
     mokSoket.disconnect();
     expect(mockFun.mock.calls.length).toBe(1);
   });

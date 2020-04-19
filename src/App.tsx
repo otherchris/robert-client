@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponentElement,
-  useContext,
-  useEffect,
-  useState
-} from "react";
+import React, { FunctionComponentElement, useContext, useState } from "react";
 import "./App.css";
 import { SocketContext, SocketContextType } from "./contexts/SocketContext";
 import BuildData from "./components/BuildData";
@@ -16,17 +11,30 @@ function App(): FunctionComponentElement<object> {
   const [channel, setChannel] = useState();
   const [channelState, setChannelState] = useState("none");
 
-  const channelJoiner = () => {
+  const channelJoiner = (): void => {
     const channelMaybe = socket.channel(`meeting:${meetingId}`, {});
-    channelMaybe.join()
-      .receive("ok", () => { setChannel(channelMaybe); setChannelState("open") })
+    channelMaybe
+      .join()
+      .receive("ok", () => {
+        setChannel(channelMaybe);
+        setChannelState("open");
+      })
       .receive("error", () => setChannelState("error"));
-  }
-  
+  };
+
   return (
     <div className="App">
-      <BuildData connState={connState} meetingId={meetingId} channelState={channelState}/>
-      {channel ? null : <JoinMeeting setMeetingId={setMeetingId} channelJoiner={channelJoiner} />}
+      <BuildData
+        connState={connState}
+        meetingId={meetingId}
+        channelState={channelState}
+      />
+      {channel ? null : (
+        <JoinMeeting
+          setMeetingId={setMeetingId}
+          channelJoiner={channelJoiner}
+        />
+      )}
     </div>
   );
 }

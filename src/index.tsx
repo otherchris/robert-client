@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import ApiProvider from "./contexts/ApiProvider";
-import SocketProvider from "./contexts/SocketProvider";
+import ApiProvider from "./components/ApiProvider";
+import SocketProvider from "./components/SocketProvider";
 
 ReactDOM.render(
   <React.StrictMode>

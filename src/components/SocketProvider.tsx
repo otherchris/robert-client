@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Socket, ConnectionState } from "phoenix";
 
 import SocketMock from "../mocks/SocketMock";
-import { SocketContext } from "./SocketContext";
+import { SocketContext } from "../contexts/SocketContext";
 
 const socket =
   process.env.NODE_ENV === "test"
-    ? new SocketMock()
+    ? new SocketMock({})
     : new Socket("ws://localhost:4000/socket", { params: {} });
 
 const SocketProvider: React.FC = ({ children }) => {

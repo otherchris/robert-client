@@ -3,14 +3,24 @@ import { ConnectionState, Channel } from "phoenix";
 
 export const CONNECTION_LATENCY = 10;
 
+interface SocketMockFlags {
+  noLatency?: boolean;
+}
 class SocketMock {
   connState: ConnectionState = "closed";
   openHandler = noop;
   closeHandler = noop;
+  noLatency = false;
 
-  connect(flag?: string): void {
+  constructor(flags: SocketMockFlags) {
+    if (flags.noLatency) {
+      this.noLatency = true;
+    }
+  }
+
+  connect(): void {
     this.connState = "connecting";
-    if (flag === "NO_LATENCY") {
+    if (this.noLatency) {
       this.connState = "open";
       this.openHandler.apply(this);
       return;
@@ -38,9 +48,9 @@ class SocketMock {
     return this.connState;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   channel(s: string, o: object): Channel {
     return new Channel(s, o);
   }
-
 }
 export default SocketMock;
